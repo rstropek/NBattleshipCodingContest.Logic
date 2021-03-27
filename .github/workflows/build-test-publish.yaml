@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-dotnet@v1
         name: 🔧 Setup .NET
         with:
-          dotnet-version: '5.x.x'
+          dotnet-version: '5.0.x'
 
       - name: 👩‍🏭 Restore
         run: dotnet restore
