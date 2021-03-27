@@ -31,4 +31,8 @@ jobs:
         run: dotnet pack --no-build --no-restore --configuration $CONFIG
 
       - name: 📢 Publish on NuGet
-        run: find ./bin/Release -name '*.nupkg' | xargs -i dotnet nuget push {} --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+        run: |
+          ls -la
+          ls ./bin -la
+          ls ./bin/release -la
+          find ./bin/Release -name '*.nupkg' | xargs -i dotnet nuget push {} --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
