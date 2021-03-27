@@ -25,6 +25,8 @@
         <RepositoryType>GitHub</RepositoryType>
 
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+        <Description>Game logic for battleship board game. Used in Battleship Coding Contest.</Description>
 	</PropertyGroup>
 
 </Project>
