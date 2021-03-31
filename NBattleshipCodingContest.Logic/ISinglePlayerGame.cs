@@ -3,12 +3,17 @@
     using System;
     using System.Collections.Generic;
 
-    // NOTE that this interface is for future use. Currently not part of the project.
-
     /// <summary>
     /// Represens a log entry in a single-player game' log
     /// </summary>
     public record SinglePlayerGameLogRecord(BoardIndex Location, SquareContent ShotResult);
+
+    public enum SinglePlayerGameState
+    {
+        InProgress,
+        AllShipsSunken,
+        TooManyShots
+    }
 
     /// <summary>
     /// Represents a single-player Battleship game.
@@ -73,11 +78,12 @@
         SquareContent Shoot(BoardIndex ix);
 
         /// <summary>
-        /// Builds a <see cref="ShotRequest"/> from a shot.
+        /// Get current game state
         /// </summary>
+        /// <param name="ships">Ships on the board</param>
         /// <returns>
-        /// Created <see cref="ShotRequest"/>
+        /// State of the current game
         /// </returns>
-        ShotRequest GetShotRequest();
+        SinglePlayerGameState GetGameState(params int[] ships);
     }
 }
