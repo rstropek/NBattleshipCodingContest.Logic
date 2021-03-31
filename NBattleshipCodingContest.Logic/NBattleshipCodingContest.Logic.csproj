@@ -10,13 +10,13 @@
 	-->
 
 	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
+		<TargetFramework>netstandard2.1</TargetFramework>
 		<LangVersion>preview</LangVersion>
 		<Nullable>enable</Nullable>
 		<AnalysisLevel>preview</AnalysisLevel>
 
         <PackageId>NBattleshipCodingContest.Logic</PackageId>
-        <Version>0.1.0-alpha</Version>
+        <Version>0.2.0-alpha</Version>
         <Authors>Rainer Stropek</Authors>
         <Company>Coding Club Linz</Company>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -28,5 +28,9 @@
 
         <Description>Game logic for battleship board game. Used in Battleship Coding Contest.</Description>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="System.Text.Json" Version="5.0.1" />
+	</ItemGroup>
 
 </Project>
