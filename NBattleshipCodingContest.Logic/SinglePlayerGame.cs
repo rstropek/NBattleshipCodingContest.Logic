@@ -55,7 +55,7 @@
         /// <inheritdoc/>
         public SinglePlayerGameState GetGameState(params int[] ships)
         {
-            if (Log.Count() >= 200) return SinglePlayerGameState.TooManyShots;
+            if (NumberOfShots > 100) return SinglePlayerGameState.TooManyShots;
             if (ShootingBoard.HasLost(ships)) return SinglePlayerGameState.AllShipsSunken;
             return SinglePlayerGameState.InProgress;
         }

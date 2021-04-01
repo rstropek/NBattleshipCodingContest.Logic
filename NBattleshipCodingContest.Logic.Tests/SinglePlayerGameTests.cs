@@ -70,8 +70,9 @@ namespace NBattleshipCodingContest.Logic.Tests
         {
             var shootingBoard = new BoardContent(SquareContent.Unknown);
             var game = CreateGame() with { ShootingBoard = shootingBoard };
-            for (var i = 0; i < 200; i++)
+            for (var i = 0; i <= 100; i++)
             {
+                Assert.Equal(SinglePlayerGameState.InProgress, game.GetGameState(1));
                 game.Shoot(new BoardIndex(0));
             }
 
