@@ -60,6 +60,11 @@
         IEnumerable<SinglePlayerGameLogRecord> Log { get; }
 
         /// <summary>
+        /// Gets the number of shots (i.e. length of <see cref="Log"/>)
+        /// </summary>
+        int NumberOfShots { get; }
+
+        /// <summary>
         /// Gets the last shot (if there is one)
         /// </summary>
         /// <returns>Last shot</returns>

@@ -16,6 +16,9 @@
         public IEnumerable<SinglePlayerGameLogRecord> Log => log.ToArray();
 
         /// <inheritdoc/>
+        public int NumberOfShots => log.Count;
+
+        /// <inheritdoc/>
         IReadOnlyBoard ISinglePlayerGame.ShootingBoard => ShootingBoard;
 
         /// <inheritdoc/>
