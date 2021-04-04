@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Moq;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -109,6 +111,20 @@ namespace NBattleshipCodingContest.Logic.Tests
 
             game.Shoot("B1");
             Assert.Equal("B1", game.LastShot);
+        }
+
+        [Fact]
+        public void SinglePlayerGameFactory()
+        {
+            var fillerMock = new Mock<IBoardFiller>();
+            fillerMock.Setup(m => m.Fill(BattleshipBoard.Ships, It.IsAny<IFillableBoard>()));
+
+            var factory = new SinglePlayerGameFactory(fillerMock.Object);
+            var game = factory.Create(42);
+
+            fillerMock.VerifyAll();
+            Assert.NotNull(game);
+            Assert.Equal(42, game.PlayerIndex);
         }
     }
 }

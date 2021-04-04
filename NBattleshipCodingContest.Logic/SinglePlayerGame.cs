@@ -60,4 +60,50 @@
             return SinglePlayerGameState.InProgress;
         }
     }
+
+    /// <summary>
+    /// Factory for <see cref="SinglePlayerGame"/> instances.
+    /// </summary>
+    public interface ISinglePlayerGameFactory
+    {
+        /// <summary>
+        /// Create a <see cref="SinglePlayerGame"/> instance.
+        /// </summary>
+        /// <param name="playerIndex">Index of player</param>
+        /// <returns>
+        /// New game.
+        /// </returns>
+        ISinglePlayerGame Create(int playerIndex);
+    }
+
+    /// <summary>
+    /// Factory for <see cref="SinglePlayerGame"/> instances.
+    /// </summary>
+    /// <remarks>
+    /// The reason for this factory is that it needs a <see cref="IBoardFiller"/>
+    /// from dependency injection.
+    /// </remarks>
+    public class SinglePlayerGameFactory : ISinglePlayerGameFactory
+    {
+        private readonly IBoardFiller filler;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SinglePlayerGameFactory"/> type.
+        /// </summary>
+        /// <param name="filler">Filler used to fill the game board.</param>
+        public SinglePlayerGameFactory(IBoardFiller filler)
+        {
+            this.filler = filler;
+        }
+
+        /// <inheritdoc/>
+        public ISinglePlayerGame Create(int playerIndex)
+        {
+            var board = new BattleshipBoard();
+            filler.Fill(BattleshipBoard.Ships, board);
+
+            return new SinglePlayerGame(Guid.NewGuid(), playerIndex, board, new BoardContent(SquareContent.Unknown));
+        }
+    }
+
 }
