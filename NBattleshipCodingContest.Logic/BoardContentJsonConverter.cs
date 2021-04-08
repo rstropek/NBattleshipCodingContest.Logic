@@ -10,6 +10,28 @@
     /// </summary>
     public class BoardContentJsonConverter : JsonConverter<BoardContent>
     {
+        public static SquareContent CharToSquareContent(char sq)
+            => sq switch
+            {
+                'W' => SquareContent.Water,
+                'S' => SquareContent.Ship,
+                'H' => SquareContent.HitShip,
+                'X' => SquareContent.SunkenShip,
+                ' ' => SquareContent.Unknown,
+                _ => throw new InvalidOperationException("Invalid square content, should never happen!")
+            };
+
+        public static char SquareContentToChar(SquareContent sq)
+            => sq switch
+            {
+                SquareContent.Water => 'W',
+                SquareContent.Ship => 'S',
+                SquareContent.HitShip => 'H',
+                SquareContent.SunkenShip => 'X',
+                SquareContent.Unknown => ' ',
+                _ => throw new InvalidOperationException("Invalid square content, should never happen!")
+            };
+
         /// <inheritdoc/>
         public override BoardContent Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions _)
         {
@@ -32,15 +54,7 @@
             var board = new BoardContent();
             for (var i = 0; i < 100; i++)
             {
-                board[new BoardIndex(i)] = stringValue[i] switch
-                {
-                    'W' => SquareContent.Water,
-                    'S' => SquareContent.Ship,
-                    'H' => SquareContent.HitShip,
-                    'X' => SquareContent.SunkenShip,
-                    ' ' => SquareContent.Unknown,
-                    _ => throw new InvalidOperationException("Invalid square content, should never happen!")
-                };
+                board[new BoardIndex(i)] = CharToSquareContent(stringValue[i]);
             }
 
             return board;

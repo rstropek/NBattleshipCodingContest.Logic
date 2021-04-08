@@ -3,14 +3,16 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text.Json.Serialization;
 
     /// <summary>
     /// Represents the state of a game between two players
     /// </summary>
+    [JsonConverter(typeof(SinglePlayerGameJsonConverter))]
     public record SinglePlayerGame(Guid GameId, int PlayerIndex, IReadOnlyBoard Board, BoardContent ShootingBoard)
         : ISinglePlayerGame
     {
-        private readonly IList<SinglePlayerGameLogRecord> log = new List<SinglePlayerGameLogRecord>();
+        internal IList<SinglePlayerGameLogRecord> log { get; init; } = new List<SinglePlayerGameLogRecord>();
 
         /// <inheritdoc/>
         public IEnumerable<SinglePlayerGameLogRecord> Log => log.ToArray();

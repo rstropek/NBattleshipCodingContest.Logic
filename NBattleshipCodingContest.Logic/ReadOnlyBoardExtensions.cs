@@ -25,15 +25,7 @@
             {
                 for (var i = 0; i < 100; i++)
                 {
-                    buf[i] = content[new BoardIndex(i)] switch
-                    {
-                        SquareContent.Water => 'W',
-                        SquareContent.Ship => 'S',
-                        SquareContent.HitShip => 'H',
-                        SquareContent.SunkenShip => 'X',
-                        SquareContent.Unknown => ' ',
-                        _ => throw new InvalidOperationException("Invalid square content, should never happen!")
-                    };
+                    buf[i] = BoardContentJsonConverter.SquareContentToChar(content[new BoardIndex(i)]);
                 }
             });
 
