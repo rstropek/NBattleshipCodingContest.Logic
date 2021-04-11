@@ -15,7 +15,7 @@
         internal IList<SinglePlayerGameLogRecord> log { get; init; } = new List<SinglePlayerGameLogRecord>();
 
         /// <inheritdoc/>
-        public IEnumerable<SinglePlayerGameLogRecord> Log => log.ToArray();
+        public IReadOnlyList<SinglePlayerGameLogRecord> Log => log.ToArray();
 
         /// <inheritdoc/>
         public int NumberOfShots => log.Count;

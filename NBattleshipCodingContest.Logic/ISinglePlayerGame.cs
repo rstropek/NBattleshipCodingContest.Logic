@@ -57,7 +57,7 @@
         /// <summary>
         /// Gets the history of shots
         /// </summary>
-        IEnumerable<SinglePlayerGameLogRecord> Log { get; }
+        IReadOnlyList<SinglePlayerGameLogRecord> Log { get; }
 
         /// <summary>
         /// Gets the number of shots (i.e. length of <see cref="Log"/>)
