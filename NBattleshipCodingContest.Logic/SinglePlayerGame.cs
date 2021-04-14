@@ -29,25 +29,36 @@
         /// <inheritdoc/>
         public SquareContent Shoot(BoardIndex ix)
         {
-            var content = Board[ix];
-            ShootingBoard[ix] = content;
-            if (content == SquareContent.Ship)
+            SquareContent content;
+            if (ShootingBoard[ix] == SquareContent.Unknown)
             {
-                // We have a hit
-                content = ShootingBoard[ix] = SquareContent.HitShip;
+                // Player shoots on a square that she hasn't shot at before
 
-                // Check whether the hit sank the ship
-                var shipResult = Board.TryFindShip(ix, out var shipRange);
-                if (shipResult == ShipFindingResult.CompleteShip
-                    && shipRange.All(ix => ShootingBoard[ix] == SquareContent.HitShip))
+                content = Board[ix];
+                ShootingBoard[ix] = content;
+                if (content == SquareContent.Ship)
                 {
-                    // The hit sank the ship -> change all ship quares to SunkenShip
-                    content = SquareContent.SunkenShip;
-                    foreach(var shipIx in shipRange)
+                    // We have a hit
+                    content = ShootingBoard[ix] = SquareContent.HitShip;
+
+                    // Check whether the hit sank the ship
+                    var shipResult = Board.TryFindShip(ix, out var shipRange);
+                    if (shipResult == ShipFindingResult.CompleteShip
+                        && shipRange.All(ix => ShootingBoard[ix] is SquareContent.HitShip or SquareContent.SunkenShip))
                     {
-                        ShootingBoard[shipIx] = SquareContent.SunkenShip;
+                        // The hit sank the ship -> change all ship quares to SunkenShip
+                        content = SquareContent.SunkenShip;
+                        foreach (var shipIx in shipRange)
+                        {
+                            ShootingBoard[shipIx] = SquareContent.SunkenShip;
+                        }
                     }
                 }
+            }
+            else
+            {
+                // Player shoots on a square she already shot on before
+                content = ShootingBoard[ix];
             }
 
             log.Add(new(ix, content));

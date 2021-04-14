@@ -57,7 +57,7 @@ namespace NBattleshipCodingContest.Logic.Tests
             Assert.Equal(SquareContent.SunkenShip, shooterBoard[new BoardIndex(0)]);
             Assert.Equal(SquareContent.SunkenShip, shooterBoard[new BoardIndex(1)]);
         }
-        
+
         [Fact]
         public void GetWinner_InProgress()
         {
@@ -125,6 +125,27 @@ namespace NBattleshipCodingContest.Logic.Tests
             fillerMock.VerifyAll();
             Assert.NotNull(game);
             Assert.Equal(42, game.PlayerIndex);
+        }
+
+        [Fact]
+        public void DoubleshotTests()
+        {
+            var board = new BoardContent(SquareContent.Water);
+            board[0] = board[1] = SquareContent.Ship;
+            var shooterBoard = new BoardContent(SquareContent.Unknown);
+
+            var game = CreateGame() with
+            {
+                Board = board,
+                ShootingBoard = shooterBoard
+            };
+
+            Assert.Equal(SquareContent.HitShip, game.Shoot("A1"));
+            Assert.Equal(SquareContent.SunkenShip, game.Shoot("B1"));
+            Assert.Equal(SquareContent.SunkenShip, game.Shoot("A1"));
+            Assert.Equal(SquareContent.SunkenShip, game.Shoot("B1"));
+            Assert.Equal(SquareContent.SunkenShip, shooterBoard[new BoardIndex(0)]);
+            Assert.Equal(SquareContent.SunkenShip, shooterBoard[new BoardIndex(1)]);
         }
     }
 }
