@@ -91,22 +91,28 @@
             {
                 var (beginningIx, beginningComplete) = FindShipEdge(ix, direction, true);
                 var (endIx, endComplete) = FindShipEdge(ix, direction, false);
-                result = (new BoardIndexRange(beginningIx, endIx), 
+                result = (new BoardIndexRange(beginningIx, endIx),
                     beginningComplete && endComplete ? ShipFindingResult.CompleteShip : ShipFindingResult.PartialShip);
                 return result.range.Length > 1;
             }
 
-            // Go left and find first water
-            if (TryDirection(Direction.Horizontal, out var resultHorizontal))
+            // Check if the ship is placed horizontally
+            var isHorizontal = TryDirection(Direction.Horizontal, out var resultHorizontal);
+            if (isHorizontal)
             {
                 shipRange = resultHorizontal.range;
                 return resultHorizontal.complete;
             }
 
-            // Note discard operator to indicate that result is not relevant
-
-            _ = TryDirection(Direction.Vertical, out var resultVertical);
+            // Check if the ship is placed vertically
+            var isVertical = TryDirection(Direction.Vertical, out var resultVertical);
             shipRange = resultVertical.range;
+
+            // When only a single square of a ship is known, no orientation can be determined and therefore the ship is only partial.
+            if (!isHorizontal && !isVertical)
+            {
+                return ShipFindingResult.PartialShip;
+            }
             return resultVertical.complete;
         }
     }

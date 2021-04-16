@@ -91,5 +91,22 @@
             Assert.Equal(ShipFindingResult.PartialShip, board.TryFindShip(new BoardIndex(0), out BoardIndexRange ship));
             Assert.Equal(2, ship.Length);
         }
+
+        [Fact]
+        public void TryFindShip_SingleSquareHitAtTheBorder_ReturnsPartialShip()
+        {
+            //                 A1                                                                                            G10  J10
+            //                 |                                                                                               |  |
+            var boardString = "WWWWWWWWWWWWWWWWWWWWWXXXXXWWXWWWWWWWWWXWWWWWWWWWWWWWWWWWWWXWWWWWWWWWXWWXXXXWWWXWWWWWWWWWWWWWWWWWH   ";
+            var board = new BoardContent();
+            for (int i = 0; i < board.Count; i++)
+            {
+                board[new BoardIndex(i)] = BoardContentJsonConverter.CharToSquareContent(boardString[i]);
+            }
+
+            var partialShipIndex = new BoardIndex("G10");
+            var result = board.TryFindShip(partialShipIndex, out var _);
+            Assert.Equal(ShipFindingResult.PartialShip, result);
+        }
     }
 }
