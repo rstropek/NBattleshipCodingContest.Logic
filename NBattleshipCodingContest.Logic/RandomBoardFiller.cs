@@ -58,8 +58,8 @@
             {
                 var direction = rand.Next(2) == 0 ? Direction.Horizontal : Direction.Vertical;
                 if (board.TryPlaceShip(new BoardIndex(
-                    rand.Next(10 - (direction == Direction.Horizontal ? shipLength : 0)), 
-                    rand.Next(10 - (direction == Direction.Vertical ? shipLength : 0))), 
+                    rand.Next(10 - (direction == Direction.Horizontal ? shipLength - 1 : 0)),
+                    rand.Next(10 - (direction == Direction.Vertical ? shipLength - 1 : 0))),
                     shipLength, direction))
                 {
                     // We found a spot
