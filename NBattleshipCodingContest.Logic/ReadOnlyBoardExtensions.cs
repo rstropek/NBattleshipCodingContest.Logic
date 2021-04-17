@@ -46,7 +46,7 @@
         {
             // Note pattern matching
 
-            if (board[ix] is not SquareContent.HitShip and not SquareContent.Ship)
+            if (board[ix] is not SquareContent.HitShip and not SquareContent.Ship and not SquareContent.SunkenShip)
             {
                 // No ship at specified index
                 shipRange = new BoardIndexRange();
