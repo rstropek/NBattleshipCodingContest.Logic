@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text.Json;
     using Xunit;
 
     public class ReadOnlyBoardExtensionsTests
@@ -95,17 +96,21 @@
         [Fact]
         public void TryFindShip_SingleSquareHitAtTheBorder_ReturnsPartialShip()
         {
-            //                 A1                                                                                            G10  J10
-            //                 |                                                                                               |  |
-            var boardString = "WWWWWWWWWWWWWWWWWWWWWXXXXXWWXWWWWWWWWWXWWWWWWWWWWWWWWWWWWWXWWWWWWWWWXWWXXXXWWWXWWWWWWWWWWWWWWWWWH   ";
-            var board = new BoardContent();
-            for (int i = 0; i < board.Count; i++)
-            {
-                board[new BoardIndex(i)] = BoardContentJsonConverter.CharToSquareContent(boardString[i]);
-            }
+            var boardString = 
+              "\"WWWWWWWWWW" +
+                "WWWWWWWWWW" +
+                "WXXXXXWWXW" +
+                "WWWWWWWWXW" +
+                "WWWWWWWWWW" +
+                "WWWWWWWWXW" +
+                "WWWWWWWWXW" +
+                "WXXXXWWWXW" +
+                "WWWWWWWWWW" +
+                "WWWWWWH   \"";
+            var board = JsonSerializer.Deserialize<BoardContent>(boardString);
 
             var partialShipIndex = new BoardIndex("G10");
-            var result = board.TryFindShip(partialShipIndex, out var _);
+            var result = board!.TryFindShip(partialShipIndex, out var _);
             Assert.Equal(ShipFindingResult.PartialShip, result);
         }
     }

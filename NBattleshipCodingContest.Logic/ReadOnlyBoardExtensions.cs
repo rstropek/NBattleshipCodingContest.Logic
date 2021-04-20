@@ -113,6 +113,7 @@
             {
                 return ShipFindingResult.PartialShip;
             }
+
             return resultVertical.complete;
         }
     }
